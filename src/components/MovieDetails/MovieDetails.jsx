@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { AxiosApiService } from './../../services/services';
 
 export const MovieDetails = () => {
@@ -7,29 +7,33 @@ export const MovieDetails = () => {
   const { movieId } = useParams();
 
   useEffect(() => {
-    // const abortController = new AbortController();
-    //   const queryUrl = `search/movie?api_key=1f93214cb1bbadcc143eeb01d552ab8c&language=en-US&query=${movieId}&page=1&include_adult=false`;
+    const abortController = new AbortController();
 
-    const queryUrl = `movie/${movieId}?api_key=1f93214cb1bbadcc143eeb01d552ab8c`;
+    const queryUrl = `movie/${movieId}?`;
 
-    const getItems = async () => {
+    const getFilmInfo = async () => {
       try {
-        const responseData = await AxiosApiService(queryUrl);
+        const responseData = await AxiosApiService(queryUrl, abortController);
 
         setFilm(responseData);
       } catch (error) {
-        console.log(`IsError: ${error}`);
+        // console.log(`IsError: ${error}`);
       }
     };
-    getItems();
+    getFilmInfo();
 
-    // return () => abortController.abort();
+    return () => abortController.abort();
   }, [movieId]);
+
+  const navigate = useNavigate();
 
   return (
     <>
       {Boolean(film) && (
         <div>
+          <button type="button" onClick={() => navigate(-1)}>
+            Go back
+          </button>
           <img
             src={`https://image.tmdb.org/t/p/original/${film.poster_path}`}
             alt={film.original_title}
@@ -38,7 +42,7 @@ export const MovieDetails = () => {
           <h2>
             {film.original_title} ({film.release_date.slice(0, 4)})
           </h2>
-          <p>User Score: </p>
+          <p>User Score: {(film.vote_average * 10).toFixed(0)}%</p>
           <h3>Overview</h3>
           <p>{film.overview}</p>
           <h3>Generes</h3>
