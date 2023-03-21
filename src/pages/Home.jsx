@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react';
-import { AxiosApiService } from './../../services/services';
+import { Link } from 'react-router-dom';
+import { AxiosApiService } from '../services/services';
 
-export const Home = () => {
+const Home = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
     // const abortController = new AbortController();
+    const queryUrl = `trending/movie/day?api_key=1f93214cb1bbadcc143eeb01d552ab8c`;
 
     const getItems = async () => {
       try {
-        const responseData = await AxiosApiService();
+        const responseData = await AxiosApiService(queryUrl);
 
-        setItems(responseData);
+        setItems(responseData.results);
       } catch (error) {
         console.log(`IsError: ${error}`);
       }
@@ -28,7 +30,7 @@ export const Home = () => {
         {items.map(({ id, title }) => {
           return (
             <li key={id} id={id}>
-              <a href="">{title}</a>
+              <Link to={`movies/${id}`}>{title}</Link>
             </li>
           );
         })}
@@ -36,3 +38,5 @@ export const Home = () => {
     </div>
   );
 };
+
+export default Home;
