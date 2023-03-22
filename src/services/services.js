@@ -4,14 +4,15 @@ export const AxiosApiService = async (queryUrl, abortController) => {
   const BASE_URL = `https://api.themoviedb.org/3/`;
   const API_KEY = `1f93214cb1bbadcc143eeb01d552ab8c`;
 
-  const url = `${BASE_URL}${queryUrl}api_key=${API_KEY}`;
+  const url = `${BASE_URL}${queryUrl}api_key=${API_KEY}&language=en-US`;
 
-  //   console.log(`${url}`);
+  // console.log(url);
 
-  //   const response = await axios.get(url);
-  const response = await axios.get(url, { signal: abortController.signal });
+  const response = await axios.get(url);
+  // const response = await axios.get(url, { signal: abortController.signal });
 
   console.log(response.data);
+
   return response.data;
 };
 
