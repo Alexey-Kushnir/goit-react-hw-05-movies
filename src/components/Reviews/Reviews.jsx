@@ -26,16 +26,9 @@ export const Reviews = () => {
 
   return (
     <>
-      {Boolean(reviews) && (
+      {Boolean(reviews) && reviews.length > 0 ? (
         <ul>
           {reviews.map(({ author, content, id }) => {
-            // const photo = profile_path => {
-            //   if (!profile_path) {
-            //     return '';
-            //   }
-            //   return `https://image.tmdb.org/t/p/original/${profile_path}`;
-            // };
-
             return (
               <li key={id}>
                 <h4>Author: {author}</h4>
@@ -44,16 +37,9 @@ export const Reviews = () => {
             );
           })}
         </ul>
+      ) : (
+        <p>We don't have any reviews for this movie.</p>
       )}
     </>
   );
 };
-
-// export const ReviewItem = () => {
-//   return (
-//     <li>
-//       <h4>Author: {}</h4>
-//       <p></p>
-//     </li>
-//   );
-// };
