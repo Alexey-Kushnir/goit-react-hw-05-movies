@@ -16,7 +16,7 @@ const MovieDetails = () => {
 
         setMovieInfo(responseData);
       } catch (error) {
-        // console.log(`IsError: ${error}`);
+        console.log(`IsError: ${error}`);
       }
     };
     getMovieInfoInfo();
@@ -30,7 +30,7 @@ const MovieDetails = () => {
     <>
       {Boolean(movieInfo) && (
         <div>
-          <button type="button" onClick={() => navigate('/movie')}>
+          <button type="button" onClick={() => navigate('/')}>
             Go back
           </button>
           <img
