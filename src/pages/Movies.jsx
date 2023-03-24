@@ -1,44 +1,44 @@
 import { useEffect, useState, useRef } from 'react';
 import { AxiosApiService } from '../services/services';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export const Movies = () => {
   const [items, setItems] = useState({});
   const [query, setQuery] = useState('');
+  const location = useLocation();
   const initialRender = useRef(true);
+
+  // console.log(location);
 
   useEffect(() => {
     if (initialRender.current) {
       initialRender.current = false;
-    } else {
-      const abortController = new AbortController();
-      const queryUrl = `search/movie?`;
-      const wordSearchQuery = `&query=${query}&page=1`;
-
-      const getItems = async () => {
-        try {
-          const responseData = await AxiosApiService(
-            queryUrl,
-            abortController,
-            wordSearchQuery
-          );
-
-          setItems(responseData);
-        } catch (error) {
-          console.log(`IsError: ${error}`);
-        }
-      };
-      getItems();
-
-      console.log(initialRender);
-
-      return () => abortController.abort();
+      return;
     }
+    const abortController = new AbortController();
+    const queryUrl = `search/movie?`;
+    const wordSearchQuery = `&query=${query}&page=1`;
+
+    const getItems = async () => {
+      try {
+        const responseData = await AxiosApiService(
+          queryUrl,
+          abortController,
+          wordSearchQuery
+        );
+
+        setItems(responseData);
+      } catch (error) {
+        // console.log(`IsError: ${error}`);
+      }
+    };
+    getItems();
+
+    return () => abortController.abort();
   }, [query]);
 
   const handleSubmit = e => {
     e.preventDefault();
-
     const inputValue = e.target[0].value.trim();
 
     setQuery(inputValue);
@@ -66,7 +66,9 @@ export const Movies = () => {
             {items.results.map(({ title, id }) => {
               return (
                 <li key={id}>
-                  <Link to={`${id}`}>{title}</Link>
+                  <Link to={`${id}`} state={{ from: location }}>
+                    {title}
+                  </Link>
                 </li>
               );
             })}
@@ -84,3 +86,10 @@ export const Movies = () => {
 };
 
 export default Movies;
+
+// const [searchParams] = useSearchParams();
+// const params = useMemo(
+//   () => Object.fromEntries([...searchParams]),
+//   [searchParams]
+// );
+// const { name, maxPrice, inStock } = params;

@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { AxiosApiService } from './../../services/services';
 
-export const Reviews = () => {
+const Reviews = () => {
   const [reviews, setReviews] = useState();
   const { movieId } = useParams();
 
@@ -16,7 +16,7 @@ export const Reviews = () => {
 
         setReviews(responseData.results);
       } catch (error) {
-        console.log(`IsError: ${error}`);
+        // console.log(`IsError: ${error}`);
       }
     };
     getReviews();
@@ -43,3 +43,5 @@ export const Reviews = () => {
     </>
   );
 };
+
+export default Reviews;

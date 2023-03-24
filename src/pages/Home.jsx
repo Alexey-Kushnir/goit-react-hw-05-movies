@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { AxiosApiService } from '../services/services';
 
 const Home = () => {
   const [items, setItems] = useState([]);
+  const location = useLocation();
+
+  // console.log(location);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -15,7 +18,7 @@ const Home = () => {
 
         setItems(responseData.results);
       } catch (error) {
-        console.log(`IsError: ${error}`);
+        // console.log(`IsError: ${error}`);
       }
     };
     getItems();
@@ -30,7 +33,9 @@ const Home = () => {
         {items.map(({ id, title }) => {
           return (
             <li key={id} id={id}>
-              <Link to={`movies/${id}`}>{title}</Link>
+              <Link to={`movies/${id}`} state={{ from: location }}>
+                {title}
+              </Link>
             </li>
           );
         })}

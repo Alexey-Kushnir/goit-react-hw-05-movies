@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { AxiosApiService } from './../../services/services';
 
-export const Cast = () => {
+const Cast = () => {
   const [castInfo, setCastInfo] = useState();
   const { movieId } = useParams();
 
@@ -16,7 +16,7 @@ export const Cast = () => {
 
         setCastInfo(responseData.cast);
       } catch (error) {
-        console.log(`IsError: ${error}`);
+        // console.log(`IsError: ${error}`);
       }
     };
     getCastInfo();
@@ -49,3 +49,5 @@ export const Cast = () => {
     </>
   );
 };
+
+export default Cast;

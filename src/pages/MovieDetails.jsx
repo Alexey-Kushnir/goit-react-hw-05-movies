@@ -1,10 +1,15 @@
-import { useEffect, useState } from 'react';
-import { useParams, Link, useNavigate, Outlet } from 'react-router-dom';
+import { useEffect, useState, Suspense } from 'react';
+import { useParams, Link, useLocation, Outlet } from 'react-router-dom';
 import { AxiosApiService } from '../services/services';
 
 const MovieDetails = () => {
   const [movieInfo, setMovieInfo] = useState();
   const { movieId } = useParams();
+  const location = useLocation();
+
+  // console.log(location);
+
+  const backLinkHref = location.state?.from ?? '/';
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -16,7 +21,7 @@ const MovieDetails = () => {
 
         setMovieInfo(responseData);
       } catch (error) {
-        console.log(`IsError: ${error}`);
+        // console.log(`IsError: ${error}`);
       }
     };
     getMovieInfoInfo();
@@ -24,15 +29,11 @@ const MovieDetails = () => {
     return () => abortController.abort();
   }, [movieId]);
 
-  const navigate = useNavigate();
-
   return (
     <>
       {Boolean(movieInfo) && (
         <div>
-          <button type="button" onClick={() => navigate('/')}>
-            Go back
-          </button>
+          <Link to={backLinkHref}>Go back</Link>
           <img
             src={`https://image.tmdb.org/t/p/original/${movieInfo.poster_path}`}
             alt={movieInfo.original_title}
@@ -55,7 +56,9 @@ const MovieDetails = () => {
           <Link to="reviews">Reviews</Link>
         </div>
       )}
-      <Outlet />
+      <Suspense fallback={<div>Loading page...</div>}>
+        <Outlet />
+      </Suspense>
     </>
   );
 };
