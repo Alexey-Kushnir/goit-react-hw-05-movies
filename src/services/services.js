@@ -10,10 +10,7 @@ export const AxiosApiService = async (
 
   const url = `${BASE_URL}${queryUrl}api_key=${API_KEY}&language=en-US${wordSearchQuery}`;
 
-  // const response = await axios.get(url);
   const response = await axios.get(url, { signal: abortController.signal });
-
-  // console.log(response.data);
 
   return response.data;
 };

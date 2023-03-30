@@ -1,15 +1,16 @@
 import { useEffect, useState, Suspense } from 'react';
-import { useParams, Link, useLocation, Outlet } from 'react-router-dom';
-import { AxiosApiService } from '../services/services';
+import { useParams, useLocation, Outlet } from 'react-router-dom';
+import { AxiosApiService } from '../../services/services';
+import { Container, GoBackLink, InfLink } from './MovieDetails.styled';
 
 const MovieDetails = () => {
   const [movieInfo, setMovieInfo] = useState();
   const { movieId } = useParams();
   const location = useLocation();
 
-  // console.log(location);
+  console.log(location.state);
 
-  const backLinkHref = location.state?.from ?? '/';
+  const backLinkHref = location.state?.from ?? '/movies';
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -21,7 +22,7 @@ const MovieDetails = () => {
 
         setMovieInfo(responseData);
       } catch (error) {
-        // console.log(`IsError: ${error}`);
+        console.log(`IsError: ${error}`);
       }
     };
     getMovieInfoInfo();
@@ -32,8 +33,8 @@ const MovieDetails = () => {
   return (
     <>
       {Boolean(movieInfo) && (
-        <div>
-          <Link to={backLinkHref}>Go back</Link>
+        <Container>
+          <GoBackLink to={backLinkHref}>Go back</GoBackLink>
           <img
             src={`https://image.tmdb.org/t/p/original/${movieInfo.poster_path}`}
             alt={movieInfo.original_title}
@@ -52,9 +53,13 @@ const MovieDetails = () => {
             })}
           </p>
           <h4>Additional information</h4>
-          <Link to="cast">Cast</Link>
-          <Link to="reviews">Reviews</Link>
-        </div>
+          <InfLink to="cast" state={{ from: location }}>
+            Cast
+          </InfLink>
+          <InfLink to="reviews" state={{ from: location }}>
+            Reviews
+          </InfLink>
+        </Container>
       )}
       <Suspense fallback={<div>Loading page...</div>}>
         <Outlet />

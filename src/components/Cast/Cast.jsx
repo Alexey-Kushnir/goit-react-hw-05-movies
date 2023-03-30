@@ -16,7 +16,7 @@ const Cast = () => {
 
         setCastInfo(responseData.cast);
       } catch (error) {
-        // console.log(`IsError: ${error}`);
+        console.log(`IsError: ${error}`);
       }
     };
     getCastInfo();

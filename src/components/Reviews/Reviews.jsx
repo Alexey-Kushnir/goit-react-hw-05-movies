@@ -16,7 +16,7 @@ const Reviews = () => {
 
         setReviews(responseData.results);
       } catch (error) {
-        // console.log(`IsError: ${error}`);
+        console.log(`IsError: ${error}`);
       }
     };
     getReviews();

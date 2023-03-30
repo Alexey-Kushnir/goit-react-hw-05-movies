@@ -6,8 +6,6 @@ const Home = () => {
   const [items, setItems] = useState([]);
   const location = useLocation();
 
-  // console.log(location);
-
   useEffect(() => {
     const abortController = new AbortController();
     const queryUrl = `trending/movie/day?`;
@@ -18,7 +16,7 @@ const Home = () => {
 
         setItems(responseData.results);
       } catch (error) {
-        // console.log(`IsError: ${error}`);
+        console.log(`IsError: ${error}`);
       }
     };
     getItems();

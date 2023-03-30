@@ -1,20 +1,22 @@
-import { useEffect, useState, useRef } from 'react';
-import { AxiosApiService } from '../services/services';
-import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { AxiosApiService } from '../../services/services';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { Input, Button } from './Movies.styled';
 
 export const Movies = () => {
-  const [items, setItems] = useState({});
-  const [query, setQuery] = useState('');
+  const [items, setItems] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
-  const initialRender = useRef(true);
 
-  // console.log(location);
+  console.log(location.state);
+
+  const query = searchParams.get('query');
 
   useEffect(() => {
-    if (initialRender.current) {
-      initialRender.current = false;
+    if (query === null || query === undefined || query === '') {
       return;
     }
+
     const abortController = new AbortController();
     const queryUrl = `search/movie?`;
     const wordSearchQuery = `&query=${query}&page=1`;
@@ -29,35 +31,35 @@ export const Movies = () => {
 
         setItems(responseData);
       } catch (error) {
-        // console.log(`IsError: ${error}`);
+        console.log(`IsError: ${error}`);
       }
     };
     getItems();
 
     return () => abortController.abort();
-  }, [query]);
+  }, [query, setItems]);
 
-  const handleSubmit = e => {
+  const updateQueryString = e => {
     e.preventDefault();
-    const inputValue = e.target[0].value.trim();
+    const queryValue = e.target[0].value.trim();
 
-    setQuery(inputValue);
+    if (queryValue === '') {
+      return setSearchParams({});
+    }
+    setSearchParams({ query: queryValue });
+    e.target.reset();
   };
 
   return (
     <div>
-      <form
-        onSubmit={e => {
-          handleSubmit(e);
-        }}
-      >
-        <input
+      <form onSubmit={e => updateQueryString(e)}>
+        <Input
           type="text"
           autoComplete="off"
           autoFocus
-          placeholder="Search movies"
+          placeholder="  Search movies"
         />
-        <button type="submit">Search</button>
+        <Button type="submit">Search</Button>
       </form>
 
       <>
@@ -86,10 +88,3 @@ export const Movies = () => {
 };
 
 export default Movies;
-
-// const [searchParams] = useSearchParams();
-// const params = useMemo(
-//   () => Object.fromEntries([...searchParams]),
-//   [searchParams]
-// );
-// const { name, maxPrice, inStock } = params;
