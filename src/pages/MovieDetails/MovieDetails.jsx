@@ -8,7 +8,7 @@ const MovieDetails = () => {
   const { movieId } = useParams();
   const location = useLocation();
 
-  // const backLinkHref = location.state?.from ?? '/movies';
+  const backLinkHref = location.state?.from ?? '/movies';
   // const queryString = '/movies' + location.state.from.search;
 
   // console.log(queryString);
