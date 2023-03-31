@@ -8,11 +8,11 @@ const MovieDetails = () => {
   const { movieId } = useParams();
   const location = useLocation();
 
-  const backLinkHref = location.state?.from ?? '/movies';
-  const queryString = '/movies' + location.state.from.search;
+  // const backLinkHref = location.state?.from ?? '/movies';
+  // const queryString = '/movies' + location.state.from.search;
 
-  console.log(queryString);
-  console.log(location.state);
+  // console.log(queryString);
+  // console.log(location.state);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -55,10 +55,10 @@ const MovieDetails = () => {
             })}
           </p>
           <h4>Additional information</h4>
-          <InfLink to="cast" state={{ from: queryString }}>
+          <InfLink to="cast" state={{ from: location.state?.from } ?? '/'}>
             Cast
           </InfLink>
-          <InfLink to="reviews" state={{ from: queryString }}>
+          <InfLink to="reviews" state={{ from: location.state?.from } ?? '/'}>
             Reviews
           </InfLink>
         </Container>
