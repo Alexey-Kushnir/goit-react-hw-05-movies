@@ -3,7 +3,7 @@ import { AxiosApiService } from '../../services/services';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { Input, Button } from './Movies.styled';
 
-export const Movies = () => {
+const Movies = () => {
   const [items, setItems] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
@@ -11,7 +11,7 @@ export const Movies = () => {
   const query = searchParams.get('query');
 
   useEffect(() => {
-    if (query === null || query === undefined || query === '') {
+    if (!query) {
       return;
     }
 
@@ -35,7 +35,7 @@ export const Movies = () => {
     getItems();
 
     return () => abortController.abort();
-  }, [query, setItems]);
+  }, [query]);
 
   const updateQueryString = e => {
     e.preventDefault();
@@ -50,6 +50,7 @@ export const Movies = () => {
 
   return (
     <div>
+      {/* TODO:extract component */}
       <form onSubmit={e => updateQueryString(e)}>
         <Input
           type="text"
@@ -59,21 +60,20 @@ export const Movies = () => {
         />
         <Button type="submit">Search</Button>
       </form>
-
       <>
         {Boolean(items.results) && items.results.length > 0 && (
           <ul>
-            {items.results.map(({ title, id }) => {
-              return (
-                <li key={id}>
-                  <Link to={`${id}`} state={{ from: location }}>
-                    {title}
-                  </Link>
-                </li>
-              );
-            })}
+            {items.results.map(({ title, id }) => (
+              //TODO:extract component
+              <li key={id}>
+                <Link to={`${id}`} state={{ from: location }}>
+                  {title}
+                </Link>
+              </li>
+            ))}
           </ul>
         )}
+
         {Boolean(items.results) &&
         items.results.length === 0 &&
         items.page === 1 &&

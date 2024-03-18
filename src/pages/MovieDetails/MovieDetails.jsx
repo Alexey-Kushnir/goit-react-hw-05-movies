@@ -10,7 +10,8 @@ const MovieDetails = () => {
 
   const backLinkHref = location.state?.from ?? '/';
 
-  // console.log(location.state);
+  // console.log(location);
+  // console.log(location.state.from);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -35,6 +36,7 @@ const MovieDetails = () => {
       {Boolean(movieInfo) && (
         <Container>
           <GoBackLink to={backLinkHref}>Go back</GoBackLink>
+          {/* //TODO: extract component */}
           <img
             src={`https://image.tmdb.org/t/p/original/${movieInfo.poster_path}`}
             alt={movieInfo.original_title}
@@ -46,11 +48,12 @@ const MovieDetails = () => {
           <p>User Score: {(movieInfo.vote_average * 10).toFixed(0)}%</p>
           <h3>Overview</h3>
           <p>{movieInfo.overview}</p>
-          <h3>Generes</h3>
+          <h3>Genres</h3>
           <p>
-            {movieInfo.genres.map(g => {
-              return `${g.name} `;
-            })}
+            {movieInfo.genres
+              .map(g => `${g.name}, `)
+              .join('')
+              .slice(0, -2)}
           </p>
           <h4>Additional information</h4>
           <InfLink to="cast" state={{ from: location.state?.from } ?? '/'}>
@@ -61,7 +64,7 @@ const MovieDetails = () => {
           </InfLink>
         </Container>
       )}
-      <Suspense fallback={<div>Loading page...</div>}>
+      <Suspense fallback={<div> Loading page...</div>}>
         <Outlet />
       </Suspense>
     </>

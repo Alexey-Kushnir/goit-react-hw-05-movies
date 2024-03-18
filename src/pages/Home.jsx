@@ -30,6 +30,7 @@ const Home = () => {
       <ul>
         {items.map(({ id, title }) => {
           return (
+            //TODO:extract component
             <li key={id} id={id}>
               <Link to={`movies/${id}`} state={{ from: location }}>
                 {title}
@@ -43,3 +44,5 @@ const Home = () => {
 };
 
 export default Home;
+
+//TODO: re export from index.js to App    https://stackoverflow.com/questions/39999282/re-export-default-in-es-6-modules

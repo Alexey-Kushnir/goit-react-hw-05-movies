@@ -19,7 +19,7 @@ export const GoBackLink = styled(Link)`
   text-align: center;
   text-decoration: none;
   margin-bottom: 10px;
-  width: 50px;
+  width: 70px;
   height: 15px;
 `;
 
