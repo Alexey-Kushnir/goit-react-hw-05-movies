@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { AxiosApiService } from '../../services/services';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
-import { Input, Button } from './Movies.styled';
+import { QueryForm } from '../../components/QueryForm/QueryForm';
 
 const Movies = () => {
   const [items, setItems] = useState([]);
@@ -50,21 +50,11 @@ const Movies = () => {
 
   return (
     <div>
-      {/* TODO:extract component */}
-      <form onSubmit={e => updateQueryString(e)}>
-        <Input
-          type="text"
-          autoComplete="off"
-          autoFocus
-          placeholder="  Search movies"
-        />
-        <Button type="submit">Search</Button>
-      </form>
+      <QueryForm updateQueryString={updateQueryString} />
       <>
         {Boolean(items.results) && items.results.length > 0 && (
           <ul>
             {items.results.map(({ title, id }) => (
-              //TODO:extract component
               <li key={id}>
                 <Link to={`${id}`} state={{ from: location }}>
                   {title}

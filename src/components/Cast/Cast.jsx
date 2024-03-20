@@ -13,9 +13,6 @@ const Cast = () => {
     const getCastInfo = async () => {
       try {
         const responseData = await AxiosApiService(queryUrl, abortController);
-
-        console.log(responseData);
-
         setCastInfo(responseData.cast);
       } catch (error) {
         console.log(`IsError: ${error}`);

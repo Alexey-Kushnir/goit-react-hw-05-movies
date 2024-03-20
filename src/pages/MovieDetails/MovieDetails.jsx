@@ -10,9 +10,6 @@ const MovieDetails = () => {
 
   const backLinkHref = location.state?.from ?? '/';
 
-  // console.log(location);
-  // console.log(location.state.from);
-
   useEffect(() => {
     const abortController = new AbortController();
     const queryUrl = `movie/${movieId}?`;
@@ -20,7 +17,6 @@ const MovieDetails = () => {
     const getMovieInfoInfo = async () => {
       try {
         const responseData = await AxiosApiService(queryUrl, abortController);
-
         setMovieInfo(responseData);
       } catch (error) {
         console.log(`IsError: ${error}`);
@@ -56,15 +52,11 @@ const MovieDetails = () => {
               .slice(0, -2)}
           </p>
           <h4>Additional information</h4>
-          <InfLink to="cast" state={{ from: location.state?.from } ?? '/'}>
-            Cast
-          </InfLink>
-          <InfLink to="reviews" state={{ from: location.state?.from } ?? '/'}>
-            Reviews
-          </InfLink>
+          <InfLink to="cast">Cast</InfLink>
+          <InfLink to="reviews">Reviews</InfLink>
         </Container>
       )}
-      <Suspense fallback={<div> Loading page...</div>}>
+      <Suspense fallback={<div> Loading subpage...</div>}>
         <Outlet />
       </Suspense>
     </>

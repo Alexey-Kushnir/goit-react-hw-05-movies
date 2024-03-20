@@ -8,8 +8,6 @@ const Reviews = () => {
 
   const { movieId } = useParams();
 
-  console.log(reviews);
-
   useEffect(() => {
     const abortController = new AbortController();
     const queryUrl = `movie/${movieId}/reviews?`;
@@ -40,7 +38,7 @@ const Reviews = () => {
           ))}
         </ul>
       ) : isLoading ? (
-        <p>LOADING.....</p>
+        <p> Loading results...</p>
       ) : (
         <p>We don't have any reviews for this movie.</p>
       )}
