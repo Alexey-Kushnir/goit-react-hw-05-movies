@@ -32,7 +32,6 @@ const MovieDetails = () => {
       {Boolean(movieInfo) && (
         <Container>
           <GoBackLink to={backLinkHref}>Go back</GoBackLink>
-          {/* //TODO: extract component */}
           <img
             src={`https://image.tmdb.org/t/p/original/${movieInfo.poster_path}`}
             alt={movieInfo.original_title}
